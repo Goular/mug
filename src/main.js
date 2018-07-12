@@ -1,6 +1,10 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import VCharts from 'v-charts'
+
+// 添加VCharts用于图表显示
+Vue.use(VCharts)
 
 Vue.config.productionTip = false
 
