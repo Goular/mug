@@ -9,8 +9,14 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
+      path: '/',
+      component: EquipmentData,
+      meta: {
+        title: '设备数据'
+      }
+    },
+    {
       path: '/equipment',
-      name: 'EquipmentData',
       component: EquipmentData,
       meta: {
         title: '设备数据'
@@ -18,7 +24,6 @@ export default new Router({
     },
     {
       path: '/monitor',
-      name: 'MonitoringData',
       component: MonitoringData,
       meta: {
         title: '监控数据'
@@ -26,7 +31,6 @@ export default new Router({
     },
     {
       path: '/produce',
-      name: 'ProduceData',
       component: ProduceData,
       meta: {
         title: '生产数据'
