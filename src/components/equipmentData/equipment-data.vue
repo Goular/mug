@@ -1,8 +1,6 @@
 <template>
   <div>
-    设备数据
     <date-selector></date-selector>
-    333
   </div>
 </template>
 
