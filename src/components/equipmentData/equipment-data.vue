@@ -2,7 +2,7 @@
   <div class="contianer">
     <div class="date">
       <div class="dateButton" @click="switchSelector">
-        <span>本日</span>
+        <span>{{switchText}}</span>
         <img src="../../assets/img/arrow_triangle_down.png"/>
       </div>
     </div>
@@ -25,7 +25,8 @@ export default {
   data: function () {
     return {
       switchPanel: false,
-      selectIndex: 1
+      selectIndex: 1,
+      switchText: '本日'
     }
   },
   methods: {
@@ -36,6 +37,17 @@ export default {
       console.dir(index)
       this.switchPanel = false
       this.selectIndex = index
+      switch (index) {
+        case 1:
+          this.switchText = '本日'
+          break
+        case 2:
+          this.switchText = '本周'
+          break
+        case 3:
+          this.switchText = '本月'
+          break
+      }
     }
   }
 }
