@@ -3,6 +3,8 @@ import App from './App'
 import router from './router'
 import VCharts from 'v-charts'
 
+import 'common/stylus/index.styl'
+
 // 添加VCharts用于图表显示
 Vue.use(VCharts)
 
