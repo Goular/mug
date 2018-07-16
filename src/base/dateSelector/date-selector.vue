@@ -1,12 +1,12 @@
 <template>
   <div>
-    生产数据
+    日期选择器
   </div>
 </template>
 
 <script>
 export default {
-  name: 'produce-data'
+  name: 'date-selector'
 }
 </script>
 

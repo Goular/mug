@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: 'equipment-data'
+  name: 'monitoring-data'
 }
 </script>
 
