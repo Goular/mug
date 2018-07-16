@@ -5,19 +5,17 @@
         <span>{{switchText}}</span>
         <img src="../../assets/img/arrow_triangle_down.png"/>
       </div>
-    </div>
-    <div class="main">
       <div v-show="switchPanel" class="datePanel">
         <span class="date-item" @click="selectDate(1)" :class="selectIndex == '1'?'select-font-color':'common-font-color'">本日</span>
         <span class="date-item" @click="selectDate(2)" :class="selectIndex == '2'?'select-font-color':'common-font-color'">本周</span>
         <span class="date-item" @click="selectDate(3)" :class="selectIndex == '3'?'select-font-color':'common-font-color'">本月</span>
       </div>
+    </div>
+    <div class="main">
       <div class="chartPanel">
-
         <!-- 图表区域 -->
         <ve-line class="chart" :data="chartData1" :extend="extend1"></ve-line>
         <ve-line class="chart m-top-12" :data="chartData1" :extend="extend1"></ve-line>
-
       </div>
     </div>
   </div>
@@ -98,6 +96,7 @@ export default {
     .date
       line-height 55px
       background-color #011128
+      position relative
       .dateButton
         display flex
         align-items center
@@ -108,10 +107,6 @@ export default {
           width 18px
           height 18px
           margin-left 8px
-    .main
-      background-color #e7e7e7
-      flex 1
-      position relative
       .datePanel
         position absolute
         display flex
@@ -122,12 +117,12 @@ export default {
           text-align center
           align-content center
           background-color #011128
-          padding-top 16px
-          padding-bottom 16px
           margin-top 1px
           font-size 16px
-      .chartPanel
-        overflow scroll
+    .main
+      background-color #e7e7e7
+      flex 1
+      overflow scroll
     .common-font-color
       color #e7e7e7
     .select-font-color
