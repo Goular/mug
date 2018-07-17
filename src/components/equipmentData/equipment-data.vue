@@ -1,36 +1,27 @@
 <template>
   <div class="contianer">
-    <div class="date">
-      <div class="dateButton" @click="switchSelector">
-        <span>{{switchText}}</span>
-        <img src="../../assets/img/arrow_triangle_down.png"/>
-      </div>
-      <div v-show="switchPanel" class="datePanel">
-        <span class="date-item" @click="selectDate(1)" :class="selectIndex == '1'?'select-font-color':'common-font-color'">本日</span>
-        <span class="date-item" @click="selectDate(2)" :class="selectIndex == '2'?'select-font-color':'common-font-color'">本周</span>
-        <span class="date-item" @click="selectDate(3)" :class="selectIndex == '3'?'select-font-color':'common-font-color'">本月</span>
-      </div>
-    </div>
+    <date-selector></date-selector>
     <div class="main">
-      <div class="chartPanel">
+      <!--<div class="chartPanel">-->
         <!-- 图表区域 -->
         <ve-line class="chart" :height="chart1Height" :data="chartData1" :extend="extend1"></ve-line>
         <ve-line class="chart m-top-12" :height="chart1Height" :data="chartData1" :extend="extend2"></ve-line>
         <div class="m-top-12"></div>
-      </div>
+      <!--</div>-->
     </div>
   </div>
 </template>
 
 <script>
+import DateSelector from 'base/dateSelector/date-selector'
+
 export default {
+  components: {DateSelector},
   name: 'equipment-data',
   data: function () {
     return {
-      switchPanel: false,
-      selectIndex: 1,
-      switchText: '本日',
       chart1Height: '300px',
+      char1Width: '370px',
       chartData1: {
         columns: ['日期', '访问用户', '下单用户', '下单率'],
         rows: [
@@ -62,7 +53,8 @@ export default {
           padding: [16, 8, 8, 8],
           left: 10,
           textStyle: {
-            fontWeight: 'normal'
+            fontWeight: 'normal',
+            fontSize: 16
           }
         },
         grid: {
@@ -83,7 +75,8 @@ export default {
           padding: [16, 8, 8, 8],
           left: 10,
           textStyle: {
-            fontWeight: 'normal'
+            fontWeight: 'normal',
+            fontSize: 16
           }
         },
         grid: {
@@ -93,25 +86,6 @@ export default {
     }
   },
   methods: {
-    switchSelector (e) { // 开启或者关闭日期选择器
-      this.switchPanel = !this.switchPanel
-    },
-    selectDate (index) { // 选择日期
-      console.dir(index)
-      this.switchPanel = false
-      this.selectIndex = index
-      switch (index) {
-        case 1:
-          this.switchText = '本日'
-          break
-        case 2:
-          this.switchText = '本周'
-          break
-        case 3:
-          this.switchText = '本月'
-          break
-      }
-    }
   },
   mounted () {
   }
@@ -124,40 +98,10 @@ export default {
     flex-direction column
     width 100%
     height 100%
-    .date
-      line-height 55px
-      background-color #011128
-      position relative
-      .dateButton
-        display flex
-        align-items center
-        font-size 18px
-        color #e7e7e7
-        padding 0px 24px
-        img
-          width 18px
-          height 18px
-          margin-left 8px
-      .datePanel
-        position absolute
-        display flex
-        flex-direction column
-        z-index 2
-        span
-          width 176px
-          text-align center
-          align-content center
-          background-color #011128
-          margin-top 1px
-          font-size 16px
-    .main
-      background-color #e7e7e7
-      flex 1
-      overflow scroll
-    .common-font-color
-      color #e7e7e7
-    .select-font-color
-      color #ff8a55
+  .main
+    background-color #e7e7e7
+    flex 1
+    overflow scroll
   .chart
     background-color white
     width 98%
