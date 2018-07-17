@@ -14,8 +14,9 @@
     <div class="main">
       <div class="chartPanel">
         <!-- 图表区域 -->
-        <ve-line class="chart" :data="chartData1" :extend="extend1"></ve-line>
-        <ve-line class="chart m-top-12" :data="chartData1" :extend="extend1"></ve-line>
+        <ve-line class="chart" :height="chart1Height" :data="chartData1" :extend="extend1"></ve-line>
+        <ve-line class="chart m-top-12" :height="chart1Height" :data="chartData1" :extend="extend2"></ve-line>
+        <div class="m-top-12"></div>
       </div>
     </div>
   </div>
@@ -29,6 +30,7 @@ export default {
       switchPanel: false,
       selectIndex: 1,
       switchText: '本日',
+      chart1Height: '300px',
       chartData1: {
         columns: ['日期', '访问用户', '下单用户', '下单率'],
         rows: [
@@ -49,14 +51,43 @@ export default {
       extend1: {
         'xAxis.0.axisLabel.rotate': 45,
         legend: {
-          y: 'bottom'
+          y: 'bottom',
+          padding: [10, 10],
+          selectedMode: false // 取消图例上的点击事件
         },
         title: {
           show: true,
-          text: '主标题',
+          text: '生产时间: 100min',
           // subtext: '副标题',
-          x: 'center',
-          padding: 8
+          padding: [16, 8, 8, 8],
+          left: 10,
+          textStyle: {
+            fontWeight: 'normal'
+          }
+        },
+        grid: {
+          bottom: 30
+        }
+      },
+      extend2: {
+        'xAxis.0.axisLabel.rotate': 45,
+        legend: {
+          y: 'bottom',
+          padding: [10, 10],
+          selectedMode: false // 取消图例上的点击事件
+        },
+        title: {
+          show: true,
+          text: '生产数量: 100片',
+          // subtext: '副标题',
+          padding: [16, 8, 8, 8],
+          left: 10,
+          textStyle: {
+            fontWeight: 'normal'
+          }
+        },
+        grid: {
+          bottom: 30
         }
       }
     }
@@ -129,7 +160,7 @@ export default {
       color #ff8a55
   .chart
     background-color white
-    width 99%
+    width 98%
   .m-top-12
     margin-top 12px
 </style>
