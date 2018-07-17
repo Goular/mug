@@ -6,6 +6,7 @@
         <!-- 图表区域 -->
         <ve-line class="chart" :height="chart1Height" :data="chartData1" :extend="extend1"></ve-line>
         <ve-line class="chart m-top-12" :height="chart1Height" :data="chartData1" :extend="extend2"></ve-line>
+        <ve-line class="chart m-top-12" :height="chart1Height" :data="chartData1" :extend="extend3"></ve-line>
         <div class="m-top-12"></div>
       <!--</div>-->
     </div>
@@ -71,6 +72,28 @@ export default {
         title: {
           show: true,
           text: '生产数量: 100片',
+          // subtext: '副标题',
+          padding: [16, 8, 8, 8],
+          left: 10,
+          textStyle: {
+            fontWeight: 'normal',
+            fontSize: 16
+          }
+        },
+        grid: {
+          bottom: 30
+        }
+      },
+      extend3: {
+        'xAxis.0.axisLabel.rotate': 45,
+        legend: {
+          y: 'bottom',
+          padding: [10, 10],
+          selectedMode: false // 取消图例上的点击事件
+        },
+        title: {
+          show: true,
+          text: '运行速度: 106m/min',
           // subtext: '副标题',
           padding: [16, 8, 8, 8],
           left: 10,
