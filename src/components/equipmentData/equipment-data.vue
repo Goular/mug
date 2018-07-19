@@ -2,11 +2,13 @@
   <div class="contianer">
     <date-selector></date-selector>
     <div class="main">
+      <div v-if="revData">11223</div>
+      <div v-else>33445</div>
       <!--<div class="chartPanel">-->
         <!-- 图表区域 -->
-        <ve-line class="chart" :height="chart1Height" :data="chartData1" :extend="extend1"></ve-line>
-        <ve-line class="chart m-top-12" :height="chart1Height" :data="chartData1" :extend="extend2"></ve-line>
-        <ve-line class="chart m-top-12" :height="chart1Height" :data="chartData1" :extend="extend3"></ve-line>
+        <ve-line class="chart" :height="chart1Height" :data="chartData1" :extend="revData.extendArr[0]"></ve-line>
+        <ve-line class="chart m-top-12" :height="chart1Height" :data="chartData1" :extend="revData.extendArr[1]"></ve-line>
+        <ve-line class="chart m-top-12" :height="chart1Height" :data="chartData1" :extend="revData.extendArr[2]"></ve-line>
         <div class="m-top-12"></div>
       <!--</div>-->
     </div>
@@ -22,6 +24,7 @@ export default {
   name: 'equipment-data',
   data: function () {
     return {
+      revData: null,
       chart1Height: '300px',
       char1Width: '370px',
       chartData1: {
@@ -112,20 +115,87 @@ export default {
   methods: {
     _getEquipmentList () {
       getEquipment().then((res) => {
-        // // 慕课网写法
-        // // if (res.code === ERR_OK) {
-        // //   // console.log(res.data.list)
-        // //   this.discList = res.data.list
-        // // }
-        //
-        // // 自定义PHP接口的写法
-        // if (res.status === 1) {
-        //   // console.log(res.data.list)
-        //   let pRes = JSON.parse(res.data)
-        //   this.discList = pRes.data.list
-        // }
-        console.dir(res)
+        this.$nextTick(() => {
+          this.revData = this.dealWithRawData(res.data)
+        })
       })
+    },
+    dealWithRawData (rawData) {
+      // 创建生产时间数据
+      let extendTime = {
+        'xAxis.0.axisLabel.rotate': 45,
+        legend: {
+          y: 'bottom',
+          padding: [10, 10],
+          selectedMode: false // 取消图例上的点击事件
+        },
+        title: {
+          show: true,
+          text: rawData.process_time_title + rawData.process_time_unit,
+          // subtext: '副标题',
+          padding: [16, 8, 8, 8],
+          left: 10,
+          textStyle: {
+            fontWeight: 'normal',
+            fontSize: 16
+          }
+        },
+        grid: {
+          bottom: 30
+        }
+      }
+      // 创建生产数量数据
+      let extendNumber = {
+        'xAxis.0.axisLabel.rotate': 45,
+        legend: {
+          y: 'bottom',
+          padding: [10, 10],
+          selectedMode: false // 取消图例上的点击事件
+        },
+        title: {
+          show: true,
+          text: rawData.number_title + rawData.number_unit,
+          // subtext: '副标题',
+          padding: [16, 8, 8, 8],
+          left: 10,
+          textStyle: {
+            fontWeight: 'normal',
+            fontSize: 16
+          }
+        },
+        grid: {
+          bottom: 30
+        }
+      }
+      // 创建运行速度数据
+      let extendSpeed = {
+        'xAxis.0.axisLabel.rotate': 45,
+        legend: {
+          y: 'bottom',
+          padding: [10, 10],
+          selectedMode: false // 取消图例上的点击事件
+        },
+        title: {
+          show: true,
+          text: rawData.speed_title + rawData.speed_unit,
+          // subtext: '副标题',
+          padding: [16, 8, 8, 8],
+          left: 10,
+          textStyle: {
+            fontWeight: 'normal',
+            fontSize: 16
+          }
+        },
+        grid: {
+          bottom: 30
+        }
+      }
+      // 创建集合
+      let extendArr = [extendTime, extendNumber, extendSpeed]
+      console.dir({extendArr})
+      return {
+        extendArr
+      }
     }
   },
   created () {
