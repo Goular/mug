@@ -1,15 +1,13 @@
 <template>
-  <div class="contianer">
+  <div class='contianer'>
     <date-selector></date-selector>
-    <div class="main">
-      <div v-if="revData">11223</div>
-      <div v-else>33445</div>
-      <!--<div class="chartPanel">-->
+    <div class='main'>
+      <!--<div class='chartPanel'>-->
         <!-- 图表区域 -->
-        <ve-line class="chart" :height="chart1Height" :data="chartData1" :extend="revData.extendArr[0]"></ve-line>
-        <ve-line class="chart m-top-12" :height="chart1Height" :data="chartData1" :extend="revData.extendArr[1]"></ve-line>
-        <ve-line class="chart m-top-12" :height="chart1Height" :data="chartData1" :extend="revData.extendArr[2]"></ve-line>
-        <div class="m-top-12"></div>
+        <ve-line class='chart' :height='chart1Height' :data='chartData1' :extend='revData.extendArr[0]'></ve-line>
+        <ve-line class='chart m-top-12' :height='chart1Height' :data='chartData1' :extend='revData.extendArr[1]'></ve-line>
+        <ve-line class='chart m-top-12' :height='chart1Height' :data='chartData1' :extend='revData.extendArr[2]'></ve-line>
+        <div class='m-top-12'></div>
       <!--</div>-->
     </div>
   </div>
@@ -190,11 +188,63 @@ export default {
           bottom: 30
         }
       }
-      // 创建集合
+      // 创建表格属性集合
       let extendArr = [extendTime, extendNumber, extendSpeed]
-      console.dir({extendArr})
+      // let chartTime = this.createChart(rawData.option.process_time)
+      // let chartNumber = this.createChart(rawData.option.number)
+      // let chartSpeed = this.createChart(rawData.option.speed)
+      // 创建图表数据
+      let datas = {
+        'xAxis': ['0:00', '1:00', '2:00', '3:00', '4:00', '5:00', '6:00', '7:00', '8:00', '9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00'],
+        'yAxis': [{
+          'name': '喷幅1号',
+          'data': [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0', '0', 0, 0, '-0.1', '0', 0]
+        }, {
+          'name': '喷幅2号',
+          'data': [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0', '0', 0, 0, '-0.05', '0', 0]
+        }, {
+          'name': '喷幅3号',
+          'data': [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '-0.1', '0', 0, 0, '-0.06', '0', 0]
+        }, {
+          'name': '喷幅4号',
+          'data': [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '-0.08', '0', 0, 0, '-0.07', '0', 0]
+        }],
+        'yUnit': 'bar'
+      }
+      let chartTime = this.createChart(datas)
+      console.dir(chartTime)
+      // let chartArr = [chartTime, chartNumber, chartSpeed]
       return {
         extendArr
+      }
+    },
+    createChart (data) {
+      let columns = ['data']
+      // 处理legend
+      data.yAxis.forEach((value, key) => {
+        columns.push(value.name)
+      })
+      // 处理数据
+      let rows = []
+      // 获取每条x轴的长度
+      let colLen = columns.length
+      let xLen = data.xAxis.length
+      for (let i = 0; i < xLen; i++) {
+        let xData = data.xAxis[i]
+        let tmp = {}
+        for (let j = 0; j < colLen; j++) {
+          if (j === 0) {
+            tmp[columns[j]] = xData
+          } else {
+            tmp[columns[j]] = data.yAxis[j - 1].data[i]
+          }
+        }
+        rows.push(tmp)
+      }
+      console.dir(rows)
+      return {
+        columns,
+        rows
       }
     }
   },
@@ -204,7 +254,7 @@ export default {
 }
 </script>
 
-<style scoped lang="stylus">
+<style scoped lang='stylus'>
   .contianer
     display flex
     flex-direction column
