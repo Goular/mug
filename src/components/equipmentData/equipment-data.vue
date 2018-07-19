@@ -15,7 +15,7 @@
 
 <script>
 import DateSelector from 'base/dateSelector/date-selector'
-import {getEquipment} from '../../api/equipment'
+import {getEquipmentData} from '../../api/equipment'
 
 export default {
   components: {DateSelector},
@@ -29,7 +29,7 @@ export default {
   },
   methods: {
     _getEquipmentList () {
-      getEquipment().then((res) => {
+      getEquipmentData().then((res) => {
         this.$nextTick(() => {
           this.revData = this.dealWithRawData(res.data)
           console.dir(res.data)
