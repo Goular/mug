@@ -15,6 +15,7 @@
 
 <script>
 import DateSelector from 'base/dateSelector/date-selector'
+import {getEquipment} from '../../api/equipment'
 
 export default {
   components: {DateSelector},
@@ -109,8 +110,26 @@ export default {
     }
   },
   methods: {
+    _getEquipmentList () {
+      getEquipment().then((res) => {
+        // // 慕课网写法
+        // // if (res.code === ERR_OK) {
+        // //   // console.log(res.data.list)
+        // //   this.discList = res.data.list
+        // // }
+        //
+        // // 自定义PHP接口的写法
+        // if (res.status === 1) {
+        //   // console.log(res.data.list)
+        //   let pRes = JSON.parse(res.data)
+        //   this.discList = pRes.data.list
+        // }
+        console.dir(res)
+      })
+    }
   },
-  mounted () {
+  created () {
+    this._getEquipmentList()
   }
 }
 </script>
