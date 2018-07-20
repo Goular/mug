@@ -2,7 +2,8 @@
   <div class="date">
     <div class="dateButton" @click="switchSelector">
       <span>{{switchText}}</span>
-      <img src="./arrow_triangle_down.png"/>
+      <img v-show="switchPanel" src="./arrow_triangle_down.png"/>
+      <img v-show="!switchPanel" src="./arrow_triangle_up.png"/>
     </div>
     <div style="flex: 1"></div>
     <div v-show="switchPanel" class="datePanel">
