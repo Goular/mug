@@ -42,6 +42,7 @@ export default {
           this.switchText = '本月'
           break
       }
+      this.$emit('getSelectIndex', this.selectIndex)
     }
   }
 }

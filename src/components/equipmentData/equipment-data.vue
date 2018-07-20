@@ -1,6 +1,6 @@
 <template>
   <div class='contianer'>
-    <date-selector></date-selector>
+    <date-selector @getSelectIndex="getIndex"></date-selector>
     <div v-if="revData" class='main'>
       <!--<div class='chartPanel'>-->
         <!-- 图表区域 -->
@@ -144,6 +144,9 @@ export default {
         columns,
         rows
       }
+    },
+    getIndex (data) {
+      console.dir(data)
     }
   },
   created () {
