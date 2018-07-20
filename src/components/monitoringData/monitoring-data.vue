@@ -1,14 +1,17 @@
 <template>
   <div class='contianer'>
-    <date-selector></date-selector>
+    <date-selector @getSelectIndex="getIndex" :loading="loading"></date-selector>
     <div v-if="revData" class='main'>
       <!--<div class='chartPanel'>-->
         <!-- 图表区域 -->
-        <ve-line class='chart' :height='chart1Height' :data='revData.chartArr[0]' :extend='revData.extendArr[0]'></ve-line>
-        <ve-line class='chart m-top-12' :height='chart1Height' :data='revData.chartArr[1]' :extend='revData.extendArr[1]'></ve-line>
-        <ve-line class='chart m-top-12' :height='chart1Height' :data='revData.chartArr[2]' :extend='revData.extendArr[2]'></ve-line>
+        <ve-line class='chart' :colors="colors" :height='chart1Height' :data='revData.chartArr[0]' :extend='revData.extendArr[0]'></ve-line>
+        <ve-line class='chart m-top-12' :colors="colors" :height='chart1Height' :data='revData.chartArr[1]' :extend='revData.extendArr[1]'></ve-line>
+        <ve-line class='chart m-top-12' :colors="colors" :height='chart1Height' :data='revData.chartArr[2]' :extend='revData.extendArr[2]'></ve-line>
         <div class='m-top-12'></div>
       <!--</div>-->
+    </div>
+    <div class="loading-container" v-show="loading">
+      <loading :title="loadingTitle"></loading>
     </div>
   </div>
 </template>
@@ -16,23 +19,27 @@
 <script>
 import DateSelector from 'base/dateSelector/date-selector'
 import {getMonitorData} from '../../api/monitor'
+import Loading from 'base/loading/loading'
 
 export default {
-  components: {DateSelector},
+  components: {DateSelector, Loading},
   name: 'monitoring-data',
   data: function () {
     return {
       revData: null,
       chart1Height: '300px',
-      char1Width: '370px'
+      char1Width: '370px',
+      colors: ['#305872', '#ff8a55', '#a5a5a5', '#fcb595'],
+      dateIndex: 1,
+      loading: false,
+      loadingTitle: '图表加载中...'
     }
   },
   methods: {
     _getMonitorList () {
-      getMonitorData().then((res) => {
+      getMonitorData(this.dateIndex).then((res) => {
         this.$nextTick(() => {
           this.revData = this.dealWithRawData(res.data)
-          console.dir(res.data)
         })
       })
     },
@@ -144,6 +151,10 @@ export default {
         columns,
         rows
       }
+    },
+    getIndex (data) {
+      this.dateIndex = data
+      this._getMonitorList()
     }
   },
   created () {
@@ -167,4 +178,9 @@ export default {
     width 98%
   .m-top-12
     margin-top 12px
+  .loading-container
+    position: absolute
+    width: 100%
+    top: 50%
+    transform: translateY(-50%)
 </style>
