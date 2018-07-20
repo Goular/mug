@@ -28,8 +28,10 @@ export default {
       this.switchPanel = !this.switchPanel
     },
     selectDate (index) { // 选择日期
-      console.dir(index)
       this.switchPanel = false
+      if (index === this.selectIndex) {
+        return
+      }
       this.selectIndex = index
       switch (index) {
         case 1:
