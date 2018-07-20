@@ -16,6 +16,12 @@
 <script>
 export default {
   name: 'date-selector',
+  props: {
+    loading: {
+      type: Boolean,
+      default: false
+    }
+  },
   data: function () {
     return {
       switchPanel: false,
@@ -29,7 +35,7 @@ export default {
     },
     selectDate (index) { // 选择日期
       this.switchPanel = false
-      if (index === this.selectIndex) {
+      if (index === this.selectIndex || this.loading === true) {
         return
       }
       this.selectIndex = index

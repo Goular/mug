@@ -1,6 +1,6 @@
 <template>
   <div class='contianer'>
-    <date-selector @getSelectIndex="getIndex"></date-selector>
+    <date-selector @getSelectIndex="getIndex" :loading="loading"></date-selector>
     <div v-if="revData" class='main'>
       <!--<div class='chartPanel'>-->
         <!-- 图表区域 -->
@@ -24,12 +24,14 @@ export default {
     return {
       revData: null,
       chart1Height: '300px',
-      char1Width: '370px'
+      char1Width: '370px',
+      dateIndex: 1,
+      loading: false
     }
   },
   methods: {
     _getEquipmentList () {
-      getEquipmentData().then((res) => {
+      getEquipmentData(this.dateIndex).then((res) => {
         this.$nextTick(() => {
           this.revData = this.dealWithRawData(res.data)
           console.dir(res.data)
@@ -146,7 +148,8 @@ export default {
       }
     },
     getIndex (data) {
-      console.dir(data)
+      this.dateIndex = data
+      this._getEquipmentList()
     }
   },
   created () {
