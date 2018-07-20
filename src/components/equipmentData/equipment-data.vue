@@ -4,9 +4,9 @@
     <div v-if="revData" class='main'>
       <!--<div class='chartPanel'>-->
         <!-- 图表区域 -->
-        <ve-histogram class='chart' :height='chart1Height' :data='revData.chartArr[0]' :extend='revData.extendArr[0]'></ve-histogram>
-        <ve-histogram class='chart m-top-12' :height='chart1Height' :data='revData.chartArr[1]' :extend='revData.extendArr[1]'></ve-histogram>
-        <ve-histogram class='chart m-top-12' :height='chart1Height' :data='revData.chartArr[2]' :extend='revData.extendArr[2]'></ve-histogram>
+        <ve-histogram class='chart' :colors="colorsTime" :height='chart1Height' :data='revData.chartArr[0]' :extend='revData.extendArr[0]'></ve-histogram>
+        <ve-histogram class='chart m-top-12' :colors="colorsNumber" :height='chart1Height' :data='revData.chartArr[1]' :extend='revData.extendArr[1]'></ve-histogram>
+        <ve-histogram class='chart m-top-12' :colors="colorsSpeed" :height='chart1Height' :data='revData.chartArr[2]' :extend='revData.extendArr[2]'></ve-histogram>
         <div class='m-top-12'></div>
       <!--</div>-->
     </div>
@@ -29,6 +29,9 @@ export default {
       revData: null,
       chart1Height: '300px',
       char1Width: '370px',
+      colorsTime: ['#ff8a55'],
+      colorsNumber: ['#305872'],
+      colorsSpeed: ['#fcb595'],
       dateIndex: 1,
       loading: false,
       loadingTitle: '图表加载中...'
