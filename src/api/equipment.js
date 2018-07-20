@@ -1,11 +1,11 @@
-import jsonp from 'common/js/jsonp'
-import {commonParams, options} from './config'
+import axios from 'axios'
+import qs from 'qs'
 
 // 设备数据
 export function getEquipmentData (type) {
-  const url = 'https://pcbapi.pcbbao.com/mesdemo/index.php/wx_caixiang/token/device-data-chart'
-  // 对象合并
-  const data = Object.assign({type}, commonParams, {
+  let url = 'https://pcbapi.pcbbao.com/mesdemo/index.php/wx_caixiang/token/device-data-chart'
+  const data = Object.assign({type})
+  return axios.post(url, qs.stringify(data), {headers: {'Content-Type': 'application/x-www-form-urlencoded'}}).then((res) => {
+    return Promise.resolve(res.data)
   })
-  return jsonp(url, data, options)
 }
