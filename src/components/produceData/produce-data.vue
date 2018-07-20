@@ -1,13 +1,16 @@
 <template>
   <div class='contianer'>
-    <date-selector></date-selector>
+    <date-selector @getSelectIndex="getIndex" :loading="loading"></date-selector>
     <div v-if="revData" class='main'>
       <!--<div class='chartPanel'>-->
       <!-- 图表区域 -->
-      <ve-histogram class='chart' :height='chart1Height' :data='revData.chartArr[0]' :extend='revData.extendArr[0]'></ve-histogram>
-      <ve-histogram class='chart m-top-12' :height='chart1Height' :data='revData.chartArr[1]' :extend='revData.extendArr[1]'></ve-histogram>
+      <ve-histogram class='chart' :colors="colorsNumber" :height='chart1Height' :data='revData.chartArr[0]' :extend='revData.extendArr[0]'></ve-histogram>
+      <ve-histogram class='chart m-top-12' :colors="colorsArea" :height='chart1Height' :data='revData.chartArr[1]' :extend='revData.extendArr[1]'></ve-histogram>
       <div class='m-top-12'></div>
       <!--</div>-->
+    </div>
+    <div class="loading-container" v-show="loading">
+      <loading :title="loadingTitle"></loading>
     </div>
   </div>
 </template>
@@ -15,25 +18,35 @@
 <script>
 import DateSelector from 'base/dateSelector/date-selector'
 import {getProduceData} from '../../api/produce'
+import Loading from 'base/loading/loading'
 
 export default {
-  components: {DateSelector},
+  components: {DateSelector, Loading},
   name: 'produce-data',
   data: function () {
     return {
       revData: null,
       chart1Height: '300px',
-      char1Width: '370px'
+      char1Width: '370px',
+      colorsNumber: ['#ff8a55'],
+      colorsArea: ['#305872'],
+      dateIndex: 1,
+      loading: false,
+      loadingTitle: '图表加载中...'
     }
   },
   methods: {
     _getProduceList () {
-      getProduceData().then((res) => {
-        this.$nextTick(() => {
-          this.revData = this.dealWithRawData(res.data)
-          console.dir(res.data)
+      if (!this.loading) {
+        this.loading = true
+        this.revData = null
+        getProduceData(this.dateIndex).then((res) => {
+          this.$nextTick(() => {
+            this.revData = this.dealWithRawData(res.data)
+            this.loading = false
+          })
         })
-      })
+      }
     },
     dealWithRawData (rawData) {
       // 创建生产数量数据
@@ -119,6 +132,10 @@ export default {
         columns,
         rows
       }
+    },
+    getIndex (data) {
+      this.dateIndex = data
+      this._getProduceList()
     }
   },
   created () {
@@ -142,4 +159,9 @@ export default {
     width 98%
   .m-top-12
     margin-top 12px
+  .loading-container
+    position: absolute
+    width: 100%
+    top: 50%
+    transform: translateY(-50%)
 </style>
