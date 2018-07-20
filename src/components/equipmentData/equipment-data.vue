@@ -10,15 +10,19 @@
         <div class='m-top-12'></div>
       <!--</div>-->
     </div>
+    <div class="loading-container" v-show="loading">
+      <loading :title="loadingTitle"></loading>
+    </div>
   </div>
 </template>
 
 <script>
 import DateSelector from 'base/dateSelector/date-selector'
 import {getEquipmentData} from '../../api/equipment'
+import Loading from 'base/loading/loading'
 
 export default {
-  components: {DateSelector},
+  components: {DateSelector, Loading},
   name: 'equipment-data',
   data: function () {
     return {
@@ -26,17 +30,22 @@ export default {
       chart1Height: '300px',
       char1Width: '370px',
       dateIndex: 1,
-      loading: false
+      loading: false,
+      loadingTitle: '图表加载中...'
     }
   },
   methods: {
     _getEquipmentList () {
-      getEquipmentData(this.dateIndex).then((res) => {
-        this.$nextTick(() => {
-          this.revData = this.dealWithRawData(res.data)
-          console.dir(res.data)
+      if (!this.loading) {
+        this.loading = true
+        this.revData = null
+        getEquipmentData(this.dateIndex).then((res) => {
+          this.$nextTick(() => {
+            this.revData = this.dealWithRawData(res.data)
+            this.loading = false
+          })
         })
-      })
+      }
     },
     dealWithRawData (rawData) {
       // 创建生产时间数据
@@ -173,4 +182,9 @@ export default {
     width 98%
   .m-top-12
     margin-top 12px
+  .loading-container
+    position: absolute
+    width: 100%
+    top: 50%
+    transform: translateY(-50%)
 </style>

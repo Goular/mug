@@ -31,11 +31,14 @@ export default {
   },
   methods: {
     switchSelector (e) { // 开启或者关闭日期选择器
+      if (this.loading === true) {
+        return
+      }
       this.switchPanel = !this.switchPanel
     },
     selectDate (index) { // 选择日期
       this.switchPanel = false
-      if (index === this.selectIndex || this.loading === true) {
+      if (index === this.selectIndex) {
         return
       }
       this.selectIndex = index
